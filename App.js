@@ -6,12 +6,11 @@ import { firebaseConfig } from './Components/firebase';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import LoginScreen from './screen/Login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screen/Home'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Match from './screen/Notify';
-
+import Match from './screen/MatchPage';
+import Notify from './screen/Notify'
 //Backend de la app Y Front de la app
 
 const HomeScreen = ({ navigation }) => {
@@ -28,7 +27,7 @@ const Tab1Screen = () => {
   );
 };
 const Tab2Screen = () => {
-  return <Text>Tab 2</Text>;
+  return (<Notify/>);
 };
 const Tab3Screen = () => {
   return(<Match/>)
