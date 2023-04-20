@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet,TextInput, StatusBar, TouchableOpacity, Image ,Animated, KeyboardAvoidingView   } from 'react-native';
+import { View, Text, StyleSheet,TextInput, StatusBar, TouchableOpacity, Image ,Animated, KeyboardAvoidingView, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Backend de la app
@@ -10,8 +10,8 @@ const App = ({navigation}) => {
     
         //
         <SafeAreaView>
+          <StatusBar backgroundColor="#BC442A"/>
             <View style={styles.header}>
-                    
             </View>
         </SafeAreaView>
         // <View style={styles.headerContainer}>
@@ -29,9 +29,9 @@ const App = ({navigation}) => {
 //Estilos de botones, header, footer y container
 const styles = StyleSheet.create({
   header: {
-    height: 70,
+    height: 50,
     width: '100%',
-    backgroundColor: '#7CA539',
+    backgroundColor: '#BC442A',
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     alignItems: 'flex-start',

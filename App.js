@@ -72,7 +72,7 @@ const TabNavigator = () => {
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
       tabBarStyle:{
-        backgroundColor:'#7CA539'
+        backgroundColor:'#BC442A', height: 40
       },
       tabBarLabel: () => null,
       tabBarLabelStyle: {
