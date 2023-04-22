@@ -34,7 +34,7 @@ function LoginScreen() {
         console.log('sign in');
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate('TabScreen');
+        navigation.navigate('Home');
         Alert.alert('Bienvenido', 'Login Susscefuly');
       })
       .catch(error => {

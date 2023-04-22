@@ -1,153 +1,90 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, Button, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { getAut, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './Components/firebase';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './screen/Login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screen/Home'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Match from './screen/MatchPage';
-import Notify from './screen/Notify'
-//Backend de la app Y Front de la app
+import Notify from './screen/Notify';
 
-const HomeScreen = ({ navigation }) => {
-  return (
-
-    <LoginScreen />
-  );
+// Definir iconos para el tab bar
+const icons = {
+  Home: 'home',
+  Settings: 'cog',
+  Profile: 'user',
 };
-const Tab1Screen = () => {
-  return (
 
-    <Home />
+// Opciones de estilos del tab bar
+const tabBarOptions = {
+  activeTintColor: '#FBB825',
+  inactiveTintColor: '#000000',
+  style: { height: 60 },
+  showLabel: false,
+};
 
-  );
-};
-const Tab2Screen = () => {
-  return (<Notify />);
-};
-const Tab3Screen = () => {
-  return (<Match />)
-};
-// Importa tus imágenes de iconos
-const homeIcon = require('./assets/icons/home.png');
-const homeIconFocused = require('./assets/icons/home-outline.png');
-const Search = require('./assets/icons/search.png');
-const SearchFocused = require('./assets/icons/search-outline.png');
-const heart = require('./assets/icons/heart.png');
-const heartFocused = require('./assets/icons/heart-outline.png');
+// Definir pantallas para las pestañas
+const Tab1Screen = () => <Home />;
+const Tab2Screen = () => <Notify />;
+const Tab3Screen = () => <Match />;
 
+// Definir el componente del tab bar con estilos personalizados
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
+
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName, iconType;
 
-        if (route.name === 'Tab1') {
-          // Puedes cambiar el tamaño de los iconos aquí
-          return <Image
-            source={focused ? homeIcon : homeIconFocused}
-            style={{ width: 30, height: 30 }}
-          />;
-        } else if (route.name === 'Tab2') {
-          // Puedes cambiar el tamaño de los iconos aquí
-          return <Image
-            source={focused ? SearchFocused : Search}
-            style={{ width: size, height: size }}
-          />;
-        } else if (route.name === 'Tab3') {
-          return <Image
-            source={focused ? heart : heartFocused}
-            style={{ width: size, height: size }}
-          />;
-        }
+          if (route.name === 'Tab1') {
+            iconName = 'home';
+            iconType = focused ? 'solid' : 'outline';
+          } else if (route.name === 'Tab2') {
+            iconName = 'cog';
+            iconType = focused ? 'solid' : 'outline';
+          } else if (route.name === 'Tab3') {
+            iconName = 'user';
+            iconType = focused ? 'solid' : 'regular';
+          }
 
+          const iconColor = focused ? color : '#C4C4C4';
+          const barColor = focused ? color : '#C4C4C4';
+          const barHeight = focused ? 5 : 0;
 
-      },
-      tabBarActiveTintColor: 'tomato',
-      tabBarInactiveTintColor: 'gray',
-      tabBarStyle: {
-        height: 45
-      },
-      tabBarLabel: () => null,
-      tabBarLabelStyle: {
-        fontSize: 14, // Cambia el tamaño del texto aquí
-      },
-    })}>
+          return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name={iconName} size={size} color={iconColor} type={iconType} />
+              <View style={{ position: 'absolute', top: -5, height: barHeight, width: '100%', backgroundColor: barColor }} />
+            </View>
+          );
+        },
+      })}
+      tabBarOptions={tabBarOptions}
+    >
       <Tab.Screen name="Tab1" component={Tab1Screen} options={{ headerShown: false }} />
-      <Tab.Screen name="Tab2" component={Tab2Screen} options={{ headerShown: false }} />
-      <Tab.Screen name="Tab3" component={Tab3Screen} options={{ headerShown: false }} />
+      <Tab.Screen name="Tab2" component={Tab2Screen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Tab3" component={Tab3Screen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
 };
+
 const App = () => {
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" >
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TabScreen" component={TabNavigator} options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-//Estilos de botones, header, footer y container
-
-const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#195914'
-  },
-  inputContainer: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-    width: '100%',
-    fontSize: 16,
-  },
-  boton: {
-    backgroundColor: '#45A73E',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    width: '100%',
-    alignItems: 'center',
-  },
-  botonR: {
-    backgroundColor: '#0310DF',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-    width: '100%',
-    alignItems: 'center',
-  },
-  botonTexto: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-});
-
 
 export default App;

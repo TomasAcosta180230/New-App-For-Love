@@ -10,20 +10,21 @@ const App = ({ navigation }) => {
   return (
 
     // Aqui se realiza el degradado del header
-    <LinearGradient
-      colors={['#FE5B38', '#BC2A2A']
-      }
-      start={{ x: 1, y: 0 }}
-      end={{ x: 0, y: 0 }}
-    >
-      <StatusBar translucent backgroundColor="transparent" />
+    // <LinearGradient
+    //   colors={['#FE5B38', '#BC2A2A']
+    //   }
+    //   start={{ x: 1, y: 0 }}
+    //   end={{ x: 0, y: 0 }}
+    // >
+      
       <SafeAreaView>
+        <StatusBar backgroundColor={"#FBB825"}/>
         {/* Aqui se agregan todos los componentes que se quiere tener en el header */}
-        <View >
-          <Text style={{ height: 50 }}></Text>
+        <View style={styles.header}>
+          <Text style={styles.labelText}>SunnyDate</Text>
         </View>
       </SafeAreaView>
-    </LinearGradient>
+ 
 
     // <View style={styles.headerContainer}>
 
@@ -42,16 +43,25 @@ const styles = StyleSheet.create({
   header: {
     height: 50,
     width: '100%',
-    backgroundColor: '#BC442A',
+    backgroundColor: '#fff',
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     alignItems: 'flex-start',
     justifyContent: 'center',
     flexDirection: 'row',
+    borderColor:'#E3E3E3',
+    borderBottomWidth:1,
   },
   headerContainer: {
     flex: 1,
     backgroundColor: '#7CA539'
+  },
+  labelText:{
+    fontSize:20,
+    fontWeight:'bold',
+    top:9,
+    color:'#FBB825',
+    
   }
 });
 
