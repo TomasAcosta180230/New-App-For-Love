@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-
+import { getDatabase, ref, set } from "firebase/database";
 import CircleButton from '../Components/CircleButton';
 
-import { getAut, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAut, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../Components/firebase';
 import { useNavigation } from '@react-navigation/native';
@@ -16,17 +16,33 @@ function LoginScreen() {
   const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+function saveLogin(userids, emails, passwords){
+  const db = getDatabase();
+  const friendCode = generateRandomCode();
+  set(ref(db,'users/'+ userids),{
+      email:email,
+      password:password,
+      friendCode:friendCode
+  })
+}
+const generateRandomCode = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code.slice(0, 3) + '-' + code.slice(3);
+};
   const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log('Accouent created');
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch(error => {
-        Alert.alert(error);
-      })
+     createUserWithEmailAndPassword(auth,email,password)
+     .then((credetiaUser) =>{
+      console.log('sign in');
+      const user = credetiaUser.user;
+      const id = user.uid;
+      saveLogin(id,email,password);
+     }).catch(error => {
+      Alert.alert(error.message);
+    })
   }
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -34,7 +50,7 @@ function LoginScreen() {
         console.log('sign in');
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate('Home');
+        navigation.navigate('FriendCode');
         Alert.alert('Bienvenido', 'Login Susscefuly');
       })
       .catch(error => {

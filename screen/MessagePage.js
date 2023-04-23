@@ -1,28 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image ,Animated  } from 'react-native';
-import CircleButton from '../Components/CircleButton';
-
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image ,Animated ,SafeAreaView } from 'react-native';
+import Header  from '../Components/header';
 //Backend de la app
 const MessagePage = ({navigation}) => {
  
 //Todo el front de la app
   return (
-  <View>
-
-<View style={styles.container}>
-    <StatusBar backgroundColor='#EBF3DD' />
-    <View style={styles.btnTop}>
-
-    <CircleButton
-        onPress={() => navigation.navigate('Home')}
-        imageSource={require('../assets/icons/back.png')}
-        backgroundColor="#7CA539"
-      />
-
-    </View>       
-  </View>
-  </View>
-  
+        <SafeAreaView>
+          {/* Header principal */}
+              <Header/>
+          {/* ----------------- */}
+        </SafeAreaView>
   
   );
 };
@@ -32,22 +20,8 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: '#EBF3DD',
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      content: {
-        flex: 1,
-        width: '100%',
-        backgroundColor: '#EBF3DD',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        padding: 20,
-      },
-      btnTop:{
-        position:'absolute',
-        top:10,
-        left:25,  
       }
 });
 
