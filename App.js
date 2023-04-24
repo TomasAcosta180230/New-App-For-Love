@@ -13,6 +13,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image ,Animated ,SafeAreaView,ActivityIndicator } from 'react-native';
 import { firebaseConfig } from './Components/firebase';
 import { initializeApp } from 'firebase/app';
+import { useNavigation } from '@react-navigation/native';
 // Definir iconos para el tab bar
 const icons = {
   Home: 'home-alt',
@@ -48,10 +49,10 @@ const AuthenticatedUserProvider = ({children}) =>{
 // Definir el componente del tab bar con estilos personalizados
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
-
+  const [showTabBar, setShowTabBar] = useState(true);
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({tabBarActiveTintColor: '#FBB825', tabBarInactiveTintColor:'#000000', tabBarShowLabel: false,
+      screenOptions={({ route }) => ({tabBarActiveTintColor: '#FBB825', tabBarInactiveTintColor:'#000000', tabBarShowLabel: false, style: { display: showTabBar ? 'flex' : 'none' },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;
 
@@ -66,6 +67,9 @@ const TabNavigator = () => {
             iconType = focused ? 'solid' : 'regular';
           }else if (route.name === 'Tab4') {
             iconName = 'bars';
+            iconType = focused ? 'solid' : 'regular';
+          }else if (route.name === 'Tab5') {
+            iconName = 'envelope';
             iconType = focused ? 'solid' : 'regular';
           }
 
@@ -83,16 +87,31 @@ const TabNavigator = () => {
       })}
       
     >
-      <Tab.Screen name="Tab1" component={Tab2Screen} options={{ headerShown: false }} />
       <Tab.Screen name="Tab2" component={Tab1Screen} options={{ headerShown: false }} />
+      <Tab.Screen name="Tab1" component={Tab2Screen} options={{ headerShown: false }} />
       <Tab.Screen name="Tab3" component={Tab3Screen} options={{ headerShown: false }}/>
-      <Tab.Screen name="Tab4" component={Tab4Screen} options={{ headerShown: false }}/>
+      <Tab.Screen name="Tab5" component={Tab4Screen} options={{ headerShown: false,tabBarIcon: ({ color, size }) => {
+      
+      
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Icon name='envelope' size={12} color={'gray'} type={'solid'} />
+      <View style={{ position: 'absolute', top: -5, height: 5, width: '100%', backgroundColor: '#C4C4C4' }} />
+    </View>}
+            
+          , }}/>
+      <Tab.Screen name="Tab4" component={Tab4Screen} options={{ headerShown: false  }}/>
+      
     </Tab.Navigator>
   );
 };
+function ToMessage(){
+  const navigation =useNavigation(); 
+  navigation.navigate('Message');
+}
 function AppStack(){
   return(<Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
   <Stack.Screen name="Home" component={TabNavigator} />
+  <Stack.Screen name="Message" component={MessagePage} />
 </Stack.Navigator>)
 }
 

@@ -1,17 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image ,Animated ,SafeAreaView } from 'react-native';
 import Header  from '../Components/header';
+import { GiftedChat } from 'react-native-gifted-chat';
 //Backend de la app
 const MessagePage = ({navigation}) => {
  
 //Todo el front de la app
   return (
-        <SafeAreaView>
-          {/* Header principal */}
-              <Header/>
-          {/* ----------------- */}
-        </SafeAreaView>
-  
+        <GiftedChat/>
   );
 };
 //Estilos de botones, header, footer y container
