@@ -6,7 +6,8 @@ import Texts from '../Components/text'
 import {db,app} from '../Components/firebase'
 import { getAut, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import firebase from '../Components/firebase';
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue,child,get } from "firebase/database";
+import io from 'socket.io-client';
 //Backend de la app
 
 
@@ -26,20 +27,39 @@ onValue(startCountRef, (snapshot) => {
 })
 
 }
-// db.ref(`users/${encodedEmail}`).once('value')
-// .then((snapshot) => {
-//   const user = snapshot.val();
-//   if (user && user.email === mail) {
-//     Alert.alert('Inicio de sesión exitoso');
-    
-//   } else {
-//     console.log('Credenciales inválidas');
-//   }
-// })
-// .catch((error) => {
-//   console.log('Error de inicio de sesión:', error);
-// });
-
+const handleConnect = () => {
+  const db = getDatabase();
+  const auth = getAuth(app);
+  const currentUser = auth.currentUser;
+  const dbRef = ref(db, 'users/');
+  
+  onValue(dbRef, (snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      const childData = childSnapshot.val();
+      Alert.alert(childKey);
+      if(childKey == 'friendCode'){
+        Alert.alert(childData);
+      }
+      
+    });
+  }, {
+    onlyOnce: true
+  });
+  // const start = ref(db,'users/')
+  // .;
+  // onValue(start, (snapshot) => {
+  //   const data = snapshot.val();
+  //   if (data.FriendCode !== currentUser.uid) {
+  //     const socket = io('https://us-central1-loveapp-82dfb.cloudfunctions.net/app');
+  //     socket.emit('connect', {
+  //       user1: currentUser.uid,
+  //       user2: data.uid,
+  //     });
+  //     Alert.alert(data.uid);
+  //   }
+  // });
+};
 //Todo el front de la app
   return (
         <SafeAreaView style={styles.container}>
@@ -52,7 +72,7 @@ onValue(startCountRef, (snapshot) => {
                     //value={friendCode}
                     //onChangeText={setFriendCode}
                 />
-                <TouchableOpacity style={styles.boton}>
+                <TouchableOpacity style={styles.boton} onPress={handleConnect}>
                         <Text style={styles.BtnText}>Enter</Text>
                 </TouchableOpacity><TouchableOpacity style={styles.boton} onPress={readData}>
                         <Text style={styles.BtnText}>Ver codigo</Text>
