@@ -50,8 +50,8 @@ const generateRandomCode = () => {
         console.log('sign in');
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate('FriendCode');
-        Alert.alert('Bienvenido', 'Login Susscefuly');
+        //navigation.navigate('Home');
+        //Alert.alert('Bienvenido', 'Login Susscefuly');
       })
       .catch(error => {
         Alert.alert(error.message);

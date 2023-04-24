@@ -37,9 +37,8 @@ const handleConnect = () => {
     snapshot.forEach((childSnapshot) => {
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
-      Alert.alert(childKey);
-      if(childKey == 'friendCode'){
-        Alert.alert(childData);
+      if(childData.friendCode == id){
+        Alert.alert("Si");
       }
       
     });
