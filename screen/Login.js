@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert,Image } from 'react-native';
 import { getDatabase, ref, set } from "firebase/database";
 import CircleButton from '../Components/CircleButton';
 
@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, getAut, getAuth, signInWithEmailAndPass
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../Components/firebase';
 import { useNavigation } from '@react-navigation/native';
-
+const back = require('../assets/background.jpg')
 
 
 function LoginScreen() {
@@ -59,7 +59,10 @@ const generateRandomCode = () => {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Inicio de Sesión</Text>
+      <Image source={back} style={styles.backimage}/>
+      
+      <View style={styles.whitesheet}>
+      <Text style={styles.titulo}>Sign In</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Correo electrónico"
@@ -78,48 +81,70 @@ const generateRandomCode = () => {
         />
 
         <TouchableOpacity onPress={handleSignIn} style={styles.boton}>
-          <Text style={styles.botonTexto}>Iniciar Sesión</Text>
+          <Text style={styles.botonTexto}>Sign In</Text>
         </TouchableOpacity>
-        <Text style={{ top: 10 }}>OR</Text>
-        <TouchableOpacity onPress={handleCreateAccount} style={styles.botonR}>
+        <Text style={{ top: 10, left:-25 }}>Don't have account? </Text>
+        <Text style={{ top: -9 , left:65, color:'#FBB825', fontWeight:'900' }}>Sign Up</Text>
+        {/* <TouchableOpacity onPress={handleCreateAccount} style={styles.botonR}>
           <Text style={styles.botonTexto}>Crear Cuenta</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+      </View>
       </View>
     </View>
   );
 };
 //Estilos de botones, header, footer y container
-
 const styles = StyleSheet.create({
-
+  backimage:{
+    width:'100%',
+    height: 340,
+    position:'absolute',
+    top: 0,
+    resizeMode: 'cover'
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5FCFF',
+    
+  },
+  whitesheet:{
+    width: '100%',
+    height: '75%',
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 60,
   },
   titulo: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#195914'
+    marginBottom: -20,
+    color: '#FBB825',
+    top:50,
+    left:145,
+    fontSize: 38
   },
   inputContainer: {
     width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
+    top:120,
+    left:40
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-    width: '100%',
     fontSize: 16,
+    height: 58,
+    width: '100%',
+    marginBottom: 20,
+    fontSize: 16,
+    borderRadius: 10,
+    padding:12,
+    backgroundColor: '#F6F7FB'
   },
   boton: {
-    backgroundColor: '#45A73E',
+    backgroundColor: '#FBB825',
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
@@ -136,7 +161,7 @@ const styles = StyleSheet.create({
   },
   botonTexto: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
+    fontWeight: '900',
     fontSize: 16,
   },
 });
