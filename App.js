@@ -14,6 +14,7 @@ import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image ,Animated ,S
 import { firebaseConfig } from './Components/firebase';
 import { initializeApp } from 'firebase/app';
 import { useNavigation } from '@react-navigation/native';
+import Register from './screen/Register'
 // Definir iconos para el tab bar
 const icons = {
   Home: 'home-alt',
@@ -55,6 +56,7 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({tabBarActiveTintColor: '#FBB825', tabBarInactiveTintColor:'#000000', tabBarShowLabel: false, style: { display: showTabBar ? 'flex' : 'none' },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName, iconType;
+          let flex = 1;
 
           if (route.name === 'Tab1') {
             iconName = 'search';
@@ -71,6 +73,7 @@ const TabNavigator = () => {
           }else if (route.name === 'Tab5') {
             iconName = 'envelope';
             iconType = focused ? 'solid' : 'regular';
+            flex = 0;
           }
 
           const iconColor = focused ? color : '#C4C4C4';
@@ -78,7 +81,7 @@ const TabNavigator = () => {
           const barHeight = focused ? 5 : 0;
 
           return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: flex, justifyContent: 'center', alignItems: 'center' }}>
               <Icon name={iconName} size={size} color={iconColor} type={iconType} />
               <View style={{ position: 'absolute', top: -5, height: barHeight, width: '100%', backgroundColor: barColor }} />
             </View>
@@ -90,15 +93,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Tab2" component={Tab1Screen} options={{ headerShown: false }} />
       <Tab.Screen name="Tab1" component={Tab2Screen} options={{ headerShown: false }} />
       <Tab.Screen name="Tab3" component={Tab3Screen} options={{ headerShown: false }}/>
-      <Tab.Screen name="Tab5" component={Tab4Screen} options={{ headerShown: false,tabBarIcon: ({ color, size }) => {
-      
-      
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Icon name='envelope' size={12} color={'gray'} type={'solid'} />
-      <View style={{ position: 'absolute', top: -5, height: 5, width: '100%', backgroundColor: '#C4C4C4' }} />
-    </View>}
-            
-          , }}/>
+      <Tab.Screen name="Tab5" component={Tab5Screen} options={{ headerShown: false }} />
       <Tab.Screen name="Tab4" component={Tab4Screen} options={{ headerShown: false  }}/>
       
     </Tab.Navigator>
@@ -118,7 +113,7 @@ function AppStack(){
 function AuthStack(){
   return(<Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
   <Stack.Screen name="Login" component={LoginScreen} />
-  {/* <Stack.Screen name="Register" component={LoginScreen} /> */}
+  <Stack.Screen name="Register" component={Register} />
 </Stack.Navigator>)
 }
 const App = () => {

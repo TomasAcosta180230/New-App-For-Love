@@ -11,21 +11,36 @@ import { addDoc, collection } from 'firebase/firestore';
 const back = require('../assets/background.jpg')
 
 
-function LoginScreen() {
+function RegisterScreen() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const navigation = useNavigation();
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+  
 function saveLogin(userids, emails, passwords){
   const db = getDatabase();
   const friendCode = generateRandomCode();
-  set(ref(db,'users/'+ userids),{
-      email:email,
-      password:password,
-      friendCode:friendCode
-  })
+//   set(ref(db,'users/'+ userids),{
+//       email:email,
+//       password:password,
+//       friendCode:friendCode
+//   })
+useLayoutEffect(() => {
+    const collectionRef = collection(database, 'chats7', mesaje,'messages');
+    const q = query(collectionRef,orderBy('createdAt', 'desc'));
+
+    const unsuscribe = onSnapshot(q, snapshot => {
+      console.log('snapshot');
+      setMessages(
+        snapshot.docs.map(doc => ({
+          _id: doc.id,
+          friendCode: friendCode,
+        }))
+      )
+    });
+    return () => unsuscribe();
+  }, []);
     addDoc(collection(database, 'amigos',friendCode),{
       friendCode,
       friend
@@ -50,10 +65,6 @@ const generateRandomCode = () => {
       Alert.alert(error.message);
     })
   }
-  const  registerscreem =() =>{
-
-    navigation.navigate('Register');
-  }
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -72,7 +83,7 @@ const generateRandomCode = () => {
       <Image source={back} style={styles.backimage}/>
       
       <View style={styles.whitesheet}>
-      <Text style={styles.titulo}>Sign In</Text>
+      <Text style={styles.titulo}>Sign Up</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Correo electrónico"
@@ -90,15 +101,11 @@ const generateRandomCode = () => {
           style={styles.input}
         />
 
-        <TouchableOpacity onPress={handleSignIn} style={styles.boton}>
-          <Text style={styles.botonTexto}>Sign In</Text>
+        <TouchableOpacity onPress={handleCreateAccount} style={styles.boton}>
+          <Text style={styles.botonTexto}>Sign Up</Text>
         </TouchableOpacity>
-        <Text style={{ top: 10, left:-25 }}>Don't have account? </Text>
-      
-        <TouchableOpacity onPress={registerscreem} style={styles.botonF}>
-          <Text style={styles.botonT}>Sign Up</Text>
-        </TouchableOpacity>
-        
+        <Text style={{ top: 10, left:-25 }}>Forgot your password? </Text>
+        <Text style={{ top: -9 , left:65, color:'#FBB825', fontWeight:'900' }}>Here</Text>
         {/* <TouchableOpacity onPress={handleCreateAccount} style={styles.botonR}>
           <Text style={styles.botonTexto}>Crear Cuenta</Text>
         </TouchableOpacity> */}
@@ -174,21 +181,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   botonTexto: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontWeight: '900',
     fontSize: 16,
   },
-  botonF:{
-    backgroundColor:'transparent',
-    left:70,
-    top:-10,
-  },
-  botonT:{
-    color: '#FBB825',
-    fontWeight: '900',
-    fontSize: 16,
-  }
 });
 
 
-export default LoginScreen;
+export default RegisterScreen;
