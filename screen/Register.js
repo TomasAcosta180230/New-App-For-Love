@@ -21,30 +21,11 @@ function RegisterScreen() {
 function saveLogin(userids, emails, passwords){
   const db = getDatabase();
   const friendCode = generateRandomCode();
-//   set(ref(db,'users/'+ userids),{
-//       email:email,
-//       password:password,
-//       friendCode:friendCode
-//   })
-useLayoutEffect(() => {
-    const collectionRef = collection(database, 'chats7', mesaje,'messages');
-    const q = query(collectionRef,orderBy('createdAt', 'desc'));
-
-    const unsuscribe = onSnapshot(q, snapshot => {
-      console.log('snapshot');
-      setMessages(
-        snapshot.docs.map(doc => ({
-          _id: doc.id,
-          friendCode: friendCode,
-        }))
-      )
-    });
-    return () => unsuscribe();
-  }, []);
-    addDoc(collection(database, 'amigos',friendCode),{
-      friendCode,
-      friend
-    });
+  set(ref(db,'users/'+ userids),{
+      email:email,
+      password:password,
+      friendCode:friendCode
+  })
 }
 const generateRandomCode = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
